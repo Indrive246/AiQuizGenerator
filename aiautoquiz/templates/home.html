@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-success">Lecture Videos</h3>
+            <a href="{% url 'upload_video' %}" class="btn btn-success">Upload New Video</a>
+        </div>
+
+        {% if videos %}
+            <div class="row">
+                {% for video in videos %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card video-card">
+                            <div class="card-body" style="background: whitesmoke;">
+                                <h5 class="card-title">{{ video.title }}</h5>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Uploaded: {{ video.uploaded_at|date:"M d, Y" }}
+                                    </small>
+                                </p>
+                                {% if video.processed %}
+                                    <span class="badge bg-success mb-2">Processed</span>
+                                {% else %}
+                                    <span class="badge bg-warning mb-2">Not Processed</span>
+                                {% endif %}
+                                <div class="d-grid">
+                                    <a href="{% url 'video_detail' video.id %}" class="btn btn-outline-primary">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center">
+                <h3>No videos uploaded yet</h3>
+                <p>Upload your first lecture video to get started!</p>
+                <a href="{% url 'upload_video' %}" class="btn btn-primary">Upload Video</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
